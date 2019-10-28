@@ -1,3 +1,9 @@
+const youtubeScript = `var data = {
+	title: document.getElementsByClassName('title style-scope ytd-video-primary-info-renderer')[0].children[0].innerHTML,
+	duration: document.getElementsByClassName('video-stream html5-main-video')[0].duration,
+	currentTime: document.getElementsByClassName('video-stream html5-main-video')[0].currentTime
+}; data`
+
 function formatTimeElement(element) {
     const fixed = element.toFixed()
     return fixed >= 10 ? fixed : `0${fixed}`
@@ -25,18 +31,21 @@ function timeToFloat(time) {
     return Number(seconds)
 }
 
+function updateTime(duration, currentTime) {
+    let sum = timeToFloat(document.getElementById('totalMinutes').innerText)
+    sum += (duration - currentTime)
+    document.getElementById('totalMinutes').innerText = floatToTime(sum)
+}
+
 function updateTotal() {
     chrome.tabs.query({ url: 'https://*.youtube.com/*' }, function (tabs) {
         document.getElementById('totalMinutes').innerText = '0. 00:00:00'
         for (tab of tabs) {
-            chrome.tabs.executeScript(tab.id, { code: `document.getElementsByClassName('video-stream html5-main-video')[0].duration - document.getElementsByClassName('video-stream html5-main-video')[0].currentTime` }, function (time) {
-                let sum = timeToFloat(document.getElementById('totalMinutes').innerText)
-                sum += time[0]
-                document.getElementById('totalMinutes').innerText = floatToTime(sum)
+            chrome.tabs.executeScript(tab.id, { code: youtubeScript }, function (data) {
+                updateTime(data[0].duration, data[0].currentTime)
             })
         }
         document.getElementById('totalTabs').innerText = `In ${tabs.length} tabs`
-
     })
 }
 document.getElementById('updateTotal').addEventListener('click', updateTotal);
