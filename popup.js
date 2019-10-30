@@ -68,5 +68,5 @@ function updateTotal() {
     })
 }
 
-// chrome.browserAction.onClicked.addListener(window.setTimeout(updateTotal, 50))
 chrome.browserAction.onClicked.addListener(updateTotal())
+chrome.browserAction.onClicked.addListener(window.setInterval(updateTotal, 3000))
