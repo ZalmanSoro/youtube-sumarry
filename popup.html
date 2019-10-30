@@ -1,14 +1,21 @@
 <html>
-    <head>
-      <title>Youtube summary</title>
-      <link rel="stylesheet" type="text/css" href='popup.css'>
-    </head>
-    <body>
-        <button id='updateTotal' class='blue button'>Show summary</button>
-        <h1 id='totalMinutes'>0. 00:00:00</h1>
-        <h1 id='totalTabs'></h1>
-        <script src="popup.js"></script>
-    </body>
-  </html>
 
-  
+<head>
+    <title>Youtube summary</title>
+    <link rel="stylesheet" type="text/css" href='popup.css'>
+</head>
+
+<body>
+    <h1 id='totalMinutes'>0. 00:00:00</h1>
+    <h1 id='totalTabs'></h1>
+    <table class="my-table" id="summaryTable">
+        <tr>
+            <th>Title</th>
+            <th>Length</th>
+            <th>Time Left</th>
+        </tr>
+    </table>
+    <script src="popup.js"></script>
+</body>
+
+</html>
